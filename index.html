@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuerySense — SQL Query Explainer & Optimizer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body>
+<nav>
+  <a class="logo" href="#">Query<span>Sense</span></a>
+  <div class="nav-r">
+    <a href="#tool">Tool</a>
+    <a href="#about">About</a>
+    <span class="nav-tag">CS 440 — Database</span>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">CS 440 — Database Systems · SEMO 2024</div>
+  <h1>SQL, explained<br><em>plainly.</em></h1>
+  <p class="hero-sub">Paste any query and get a <strong>clause-by-clause breakdown</strong>, plain English summary, complexity rating, and concrete optimization suggestions — instantly.</p>
+  <div class="feat-row">
+    <span class="feat">Clause-by-clause analysis</span>
+    <span class="feat">Performance optimization</span>
+    <span class="feat">MySQL · PostgreSQL · SQLite · SQL Server</span>
+    <span class="feat">Complexity rating</span>
+  </div>
+</section>
+
+<section class="main" id="tool">
+  <div class="editor-shell">
+    <div class="editor-top">
+      <div class="mac-dots">
+        <div class="mdot" style="background:#ff5f57"></div>
+        <div class="mdot" style="background:#febc2e"></div>
+        <div class="mdot" style="background:#28c840"></div>
+      </div>
+      <div class="dialect-pills">
+        <button class="dpill on" onclick="setDialect('MySQL',this)">MySQL</button>
+        <button class="dpill" onclick="setDialect('PostgreSQL',this)">PostgreSQL</button>
+        <button class="dpill" onclick="setDialect('SQLite',this)">SQLite</button>
+        <button class="dpill" onclick="setDialect('SQL Server',this)">SQL Server</button>
+      </div>
+    </div>
+    <textarea id="sqlInput" oninput="updateLineCount()" placeholder="SELECT u.name, COUNT(o.id) AS total_orders&#10;FROM users u&#10;LEFT JOIN orders o ON u.id = o.user_id&#10;WHERE u.created_at > '2024-01-01'&#10;GROUP BY u.id&#10;HAVING COUNT(o.id) > 5&#10;ORDER BY total_orders DESC;"></textarea>
+    <div class="editor-bottom">
+      <span class="line-count" id="lineCount">Ln 1, Col 1</span>
+      <div class="editor-btns">
+        <button class="btn-ex" onclick="loadEx(0)">Example 1</button>
+        <button class="btn-ex" onclick="loadEx(1)">Example 2</button>
+        <button class="btn-ex" onclick="loadEx(2)">Window fn</button>
+        <button class="btn-run" id="runBtn" onclick="explain()">▶ Explain Query</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="out-shell">
+    <div class="out-top">
+      <span class="out-label">Output</span>
+      <span id="cxBadge"></span>
+    </div>
+    <div class="idle-zone" id="idleZone">
+      <div class="idle-ico">🔍</div>
+      <div class="idle-t">Paste a SQL query above and click Explain Query</div>
+    </div>
+    <div class="spin-zone" id="spinZone">
+      <div class="spinner"></div>
+      <div class="spin-t">parsing query structure...</div>
+    </div>
+    <div class="results" id="results"></div>
+  </div>
+
+  <div class="stats-strip">
+    <div class="sbox"><div class="sval g" id="cnt">0</div><div class="slbl">Queries explained</div></div>
+    <div class="sbox"><div class="sval" id="optCnt">0</div><div class="slbl">Optimizations</div></div>
+    <div class="sbox"><div class="sval g">CS 440</div><div class="slbl">Course</div></div>
+    <div class="sbox"><div class="sval">SEMO</div><div class="slbl">University</div></div>
+  </div>
+</section>
+
+<div class="about-strip" id="about">
+  <div class="as-grid">
+    <div>
+      <div class="as-pre">// about this project</div>
+      <h2 class="as-h2">Why I built this</h2>
+      <p class="as-p">In CS 440 I kept writing queries that worked but couldn't always articulate <em>why</em> — especially with complex joins and subqueries. QuerySense is the tool I wished existed during that class. It breaks down what each part of a query actually does and catches things like missing indexes that slow everything down in production.</p>
+    </div>
+    <div class="use-cases">
+      <div class="uc"><strong>Learning SQL</strong>Understand what GROUP BY vs HAVING actually does, and when to use each.</div>
+      <div class="uc"><strong>Code review</strong>Quickly audit a query someone else wrote before running it on production data.</div>
+      <div class="uc"><strong>Debugging</strong>Paste a slow query and immediately see which parts are likely causing performance issues.</div>
+      <div class="uc"><strong>Interview prep</strong>Verify your understanding of how a query executes before explaining it out loud.</div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p>QuerySense · Tarunima Amisha · 2026</p>
+  <p><a href="https://github.com/amisha53">github.com/amisha53</a> · SEMO Computer Science</p>
+</footer>
+
+<script src="js/app.js"></script>
+</body>
+</html>
